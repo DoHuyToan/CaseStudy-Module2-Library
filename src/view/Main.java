@@ -1,7 +1,13 @@
+package view;
+
+import controller.Manager;
+import model.Book;
+import model.Card;
+import model.Student;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 
 public class Main {
     public static void main(String[] args) {
@@ -14,7 +20,6 @@ public class Main {
         Book book2 = new Book("Nhà giả kim", "s2", 6);
         bookArrayList.add(book1);
         bookArrayList.add(book2);
-
         Student student1 = new Student("Toàn", "sv1", "c08", "1989");
         Student student2 = new Student("Long", "sv2", "c08", "2000");
         studentArrayList.add(student1);
@@ -33,11 +38,13 @@ public class Main {
             System.out.println("6. Hiển thị Sinh viên");
             System.out.println("7. Sửa Sinh viên");
             System.out.println("8. Xóa Sinh viên");
-            System.out.println("9. Thêm Card khi mượn Sách");
-            System.out.println("10. Chỉnh Card khi trả Sách");
-            System.out.println("11. Hiển thị danh sách Card");
-            System.out.println("12. Sửa Card");
-            System.out.println("13. Xóa Card");
+            System.out.println("9. Thêm model.Card khi mượn Sách");
+            System.out.println("10. Chỉnh model.Card khi trả Sách");
+            System.out.println("11. Hiển thị danh sách model.Card");
+            System.out.println("12. Sửa model.Card");
+            System.out.println("13. Xóa model.Card");
+            System.out.println("14. Danh sách cần phải trả sách cuối mỗi tháng");
+            System.out.println("0. Exit");
             System.out.println("Chọn Menu");
             Scanner inputChoice = new Scanner(System.in);
             choice = inputChoice.nextInt();
@@ -81,18 +88,21 @@ public class Main {
                 case 13:
                     thuVienBK.removeCard(inputCode());
                     break;
+                case 14:
+//                    System.out.println(thuVienBK.findCarNeedPay());
+                    break;
             }
         } while (choice!=0);
     }
 
     private static Card creatCard(){
-        System.out.println("Nhập mã Card");
+        System.out.println("Nhập mã model.Card");
         Scanner inputCode = new Scanner(System.in);
         String code = inputCode.nextLine();
-        System.out.println("Nhập Sách");
-        Book book = creatBook();
         System.out.println("Nhập Sinh viên");
         Student student = creatStudent();
+        System.out.println("Nhập Sách");
+        Book book = creatBook();
         System.out.println("Nhập ngày tháng thuê Sách");
         LocalDate borrowedDate = inputBorrowedDate();
         Card card = new Card(code, book, student, borrowedDate);
@@ -114,13 +124,13 @@ public class Main {
     }
 
     private static LocalDate inputPayDate(){
-        System.out.println("Nhập Năm thuê");
+        System.out.println("Nhập Năm trả");
         Scanner inputYear = new Scanner(System.in);
         int year = inputYear.nextInt();
-        System.out.println("Nhập Tháng thuê");
+        System.out.println("Nhập Tháng trả");
         Scanner inputMonth = new Scanner(System.in);
         int month = inputMonth.nextInt();
-        System.out.println("Nhập Ngày thuê");
+        System.out.println("Nhập Ngày trả");
         Scanner inputDate = new Scanner(System.in);
         int date = inputDate.nextInt();
         LocalDate payDate = LocalDate.of(year,month, date);
@@ -163,5 +173,12 @@ public class Main {
         Scanner inputCode = new Scanner(System.in);
         String code = inputCode.nextLine();
         return code;
+    }
+
+    private static String inputCodeStudent(){
+        System.out.println("Nhập code sinh viên");
+        Scanner inputCodeStudent = new Scanner(System.in);
+        String codeStudent = inputCodeStudent.nextLine();
+        return codeStudent;
     }
 }

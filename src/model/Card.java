@@ -1,8 +1,13 @@
+package model;
+
+import model.Book;
+
+import java.io.Serializable;
 import java.time.LocalDate;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-public class Card {
+public class Card implements Serializable {
     private String code;
     private Book book;
     private Student student;
@@ -15,12 +20,12 @@ public class Card {
         this.book = book;
         this.student = student;
         this.borrowedDate = borrowedDate;
-        mustReturn = borrowedDate.plusDays(30);
+        mustReturn = borrowedDate.plusDays(15);
     }
 
     @Override
     public String toString() {
-        return "model.Card: " +
+        return "model.model.Card: " +
                 "codeCard= " + code + '\'' +
                 ", book= " + book +
                 ", student= " + student +

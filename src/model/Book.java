@@ -1,11 +1,15 @@
-public class Book {
+package model;
+
+import java.io.Serializable;
+
+public class Book implements Serializable {
     private String name;
     private String code;
     private int number;
 
     @Override
     public String toString() {
-        return "Book: " +
+        return "model.Book: " +
                 "name= " + name + '\'' +
                 ", code= " + code + '\'' +
                 ", number= " + number;

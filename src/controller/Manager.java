@@ -1,22 +1,26 @@
+package controller;
+
+import model.Book;
+import model.Card;
+import model.Student;
+
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.Callable;
-
-import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Manager {
     ArrayList<Book> bookArrayList = new ArrayList<>();
     ArrayList<Student> studentArrayList = new ArrayList<>();
     ArrayList<Card> cardArrayList = new ArrayList<>();
 
-    public Manager() {
-    }
-
-    public Manager(ArrayList<Book> bookArrayList, ArrayList<Student> studentArrayList, ArrayList<Card> cardArrayList) {
-        this.bookArrayList = bookArrayList;
-        this.studentArrayList = studentArrayList;
-        this.cardArrayList = cardArrayList;
-    }
+//    public model.Card findCarNeedPay(){
+//        model.Card card = null;
+//        for (int i=0; i<cardArrayList.size(); i++){
+//            if(cardArrayList.get(i).getPayDate() == null){
+//                card = cardArrayList.get(i);
+//            }
+//        }
+//        return card;
+//    }
 
     public Book findBookByName(String name){             //tìm thông tin Sách theo tên
         Book book = null;
@@ -74,7 +78,7 @@ public class Manager {
         studentArrayList.add(student);
     }
 
-    public void editStudent(String code, Student student){              //sửa Sinh viên
+    public void editStudent(String code, Student student){                  //sửa Sinh viên
         for (int i=0; i<studentArrayList.size(); i++){
             if(studentArrayList.get(i).getCode().equals(code)){
                 studentArrayList.set(i, student);
@@ -110,28 +114,34 @@ public class Manager {
         }
     }
 
-    public void addCard(Card card){                                             //thêm Card khi Sinh viên bắt đầu mượn, chưa có ngày trả
-        cardArrayList.add(card);
-        for (int i=0; i<bookArrayList.size(); i++){                                          //giảm số lượng Sách sau khi thuê
-            if(bookArrayList.get(i).getCode().equals(card.getBook().getCode())){
-                int firstNum = bookArrayList.get(i).getNumber();
-                int borrowedNum = card.getBook().getNumber();
-                if(borrowedNum <= firstNum){
-                    bookArrayList.get(i).setNumber(firstNum - borrowedNum);
-                }
-                else {
-                    cardArrayList.remove(card);
-                    System.out.println("Số lượng sách mượn vượt quá trong kho");
+    public void addCard(Card card){                                             //thêm model.Card khi Sinh viên bắt đầu mượn, chưa có ngày trả
+        if(findStudentByCode(card.getStudent().getCode()) != null){
+            if(findBookByCode(card.getBook().getCode()) != null){
+                cardArrayList.add(card);
+                for (int i=0; i<bookArrayList.size(); i++){                                          //giảm đi số lượng Sách đã mượn
+                    if(bookArrayList.get(i).getCode().equals(card.getBook().getCode())){
+                        int firstNum = bookArrayList.get(i).getNumber();
+                        int borrowedNum = card.getBook().getNumber();
+                        if(borrowedNum <= firstNum){
+                            bookArrayList.get(i).setNumber(firstNum - borrowedNum);
+                        }
+                        else {
+                            cardArrayList.remove(card);
+                            System.out.println("Số lượng sách mượn vượt quá trong kho");
+                        }
+                    }
                 }
             }
+            else System.out.println("Sách này ko có trong kho");
         }
+        else System.out.println("Sinh viên này ko có trong trường");
     }
 
-    public void editCardBehindPay(String codeCard, LocalDate payDate){                //chỉnh lại thông tin Card sau khi trả Sách
-        for (int i=0; i<cardArrayList.size(); i++){                                    //thêm ngày trả Sách
+    public void editCardBehindPay(String codeCard, LocalDate payDate){                 //chỉnh lại thông tin model.Card sau khi trả Sách
+        for (int i=0; i<cardArrayList.size(); i++){                                            //thêm ngày trả Sách
             if(cardArrayList.get(i).getCode().equals(codeCard)){
                 cardArrayList.get(i).setPayDate(payDate);
-                for (int j=0; j<bookArrayList.size(); j++){                                 //tăng thêm số lượng Sách đã trả
+                for (int j=0; j<bookArrayList.size(); j++){                                           //tăng thêm số lượng Sách đã trả
                     if(bookArrayList.get(j).getCode().equals(cardArrayList.get(i).getBook().getCode())){
                         int firstNum = bookArrayList.get(j).getNumber();
                         int payNum = cardArrayList.get(i).getBook().getNumber();
@@ -139,31 +149,31 @@ public class Manager {
                     }
                 }
             }
+            else System.out.println("Ko có code card này trong danh sách");
         }
-
     }
 
-    public void showCard(){                            //hiển thị danh sách Card
+    public void showCard(){                            //hiển thị danh sách model.Card
         for (Card c: cardArrayList) {
             System.out.println(c);
         }
     }
 
-    public void editCard(String code, Card card){             //sửa Card
+    public void editCard(String code, Card card){             //sửa model.Card
         for(int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code))
                 cardArrayList.set(i, card);
         }
     }
 
-    public void removeCard(String code){                      //xóa Card
+    public void removeCard(String code){                      //xóa model.Card
         for(int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code))
                 cardArrayList.remove(i);
         }
     }
 
-    public Card findCardByCode(String code){           //tìm thông tin Card theo code
+    public Card findCardByCode(String code){           //tìm thông tin model.Card theo code
         Card card = null;
         for (int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code)){
@@ -171,5 +181,14 @@ public class Manager {
             }
         }
         return card;
+    }
+
+    public Manager() {
+    }
+
+    public Manager(ArrayList<Book> bookArrayList, ArrayList<Student> studentArrayList, ArrayList<Card> cardArrayList) {
+        this.bookArrayList = bookArrayList;
+        this.studentArrayList = studentArrayList;
+        this.cardArrayList = cardArrayList;
     }
 }
