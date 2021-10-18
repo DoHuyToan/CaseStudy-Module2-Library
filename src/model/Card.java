@@ -16,7 +16,7 @@ public class Card implements Serializable {
     public double fineMoney (){                       //quá hạn bị phạt tiền
         LocalDate today = LocalDate.now();
         double fineMoney = 0;
-        if(payDate == null){
+        if(payDate == null || payDate.isAfter(mustReturn)){
             if(DAYS.between(borrowedDate, today) > 45){
                 fineMoney = 1000;
             }

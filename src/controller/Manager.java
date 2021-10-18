@@ -31,8 +31,8 @@ public class Manager {
         for (int i=0; i<cardArrayList.size(); i++){
             LocalDate dateOfMonth = cardArrayList.get(i).getBorrowedDate();
             LocalDate dateOfLastMonth = dateOfMonth.withDayOfMonth(dateOfMonth.lengthOfMonth());
-            if(cardArrayList.get(i).getPayDate() == null
-                    && cardArrayList.get(i).getBorrowedDate().plusDays(15).isBefore(dateOfLastMonth)){
+            if((cardArrayList.get(i).getPayDate() == null && cardArrayList.get(i).getBorrowedDate().plusDays(15).isBefore(dateOfLastMonth))
+                    || cardArrayList.get(i).getPayDate().isAfter(cardArrayList.get(i).getBorrowedDate().plusDays(15))){
                 cardArrayList1.add(cardArrayList.get(i));
             }
         }
