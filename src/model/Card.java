@@ -1,7 +1,5 @@
 package model;
 
-import model.Book;
-
 import java.io.Serializable;
 import java.time.LocalDate;
 

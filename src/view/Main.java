@@ -2,7 +2,6 @@ package view;
 
 import controller.Manager;
 import model.Book;
-import model.Card;
 import model.Student;
 
 import java.time.LocalDate;
