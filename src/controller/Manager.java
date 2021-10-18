@@ -1,6 +1,7 @@
 package controller;
 
 import model.Book;
+import model.Card;
 import model.Student;
 
 import java.time.LocalDate;
@@ -11,15 +12,32 @@ public class Manager {
     ArrayList<Student> studentArrayList = new ArrayList<>();
     ArrayList<Card> cardArrayList = new ArrayList<>();
 
-//    public model.Card findCarNeedPay(){
-//        model.Card card = null;
-//        for (int i=0; i<cardArrayList.size(); i++){
-//            if(cardArrayList.get(i).getPayDate() == null){
-//                card = cardArrayList.get(i);
-//            }
-//        }
-//        return card;
-//    }
+    public ArrayList<Card> findCardNeedPay(){                   //tìm danh sách Card có sách "Quá hạn trả" mà "Hiện tại Chưa trả"
+        LocalDate today = LocalDate.now();
+        ArrayList<Card> cardArrayList1 = new ArrayList<>();
+        Card card = null;
+        for (int i=0; i<cardArrayList.size(); i++){
+            if(cardArrayList.get(i).getPayDate() == null
+                    && cardArrayList.get(i).getBorrowedDate().plusDays(15).isBefore(today)){
+                cardArrayList1.add(cardArrayList.get(i));
+            }
+        }
+        return cardArrayList1;
+    }
+
+    public ArrayList<Card> findCardNeedPayForMonth(){                   //tìm danh sách Card có sách "Quá hạn trả" mà "Cuối mỗi tháng Chưa trả"
+        ArrayList<Card> cardArrayList1 = new ArrayList<>();
+        Card card = null;
+        for (int i=0; i<cardArrayList.size(); i++){
+            LocalDate dateOfMonth = cardArrayList.get(i).getBorrowedDate();
+            LocalDate dateOfLastMonth = dateOfMonth.withDayOfMonth(dateOfMonth.lengthOfMonth());
+            if(cardArrayList.get(i).getPayDate() == null
+                    && cardArrayList.get(i).getBorrowedDate().plusDays(15).isBefore(dateOfLastMonth)){
+                cardArrayList1.add(cardArrayList.get(i));
+            }
+        }
+        return cardArrayList1;
+    }
 
     public Book findBookByName(String name){             //tìm thông tin Sách theo tên
         Book book = null;
@@ -136,7 +154,7 @@ public class Manager {
         else System.out.println("Sinh viên này ko có trong trường");
     }
 
-    public void editCardBehindPay(String codeCard, LocalDate payDate){                 //chỉnh lại thông tin model.Card sau khi trả Sách
+    public void editCardBehindPay(String codeCard, LocalDate payDate){                 //chỉnh lại thông tin Card sau khi trả Sách
         for (int i=0; i<cardArrayList.size(); i++){                                            //thêm ngày trả Sách
             if(cardArrayList.get(i).getCode().equals(codeCard)){
                 cardArrayList.get(i).setPayDate(payDate);
@@ -152,27 +170,27 @@ public class Manager {
         }
     }
 
-    public void showCard(){                            //hiển thị danh sách model.Card
+    public void showCard(ArrayList<Card> cardArrayList){                            //hiển thị danh sách Card
         for (Card c: cardArrayList) {
             System.out.println(c);
         }
     }
 
-    public void editCard(String code, Card card){             //sửa model.Card
+    public void editCard(String code, Card card){                    //sửa Card
         for(int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code))
                 cardArrayList.set(i, card);
         }
     }
 
-    public void removeCard(String code){                      //xóa model.Card
+    public void removeCard(String code){                      //xóa Card
         for(int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code))
                 cardArrayList.remove(i);
         }
     }
 
-    public Card findCardByCode(String code){           //tìm thông tin model.Card theo code
+    public Card findCardByCode(String code){           //tìm thông tin Card theo code
         Card card = null;
         for (int i=0; i<cardArrayList.size(); i++){
             if(cardArrayList.get(i).getCode().equals(code)){

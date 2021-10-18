@@ -2,7 +2,7 @@ package model;
 
 import java.io.Serializable;
 
-public class Card implements Serializable {
+public class Student implements Serializable {
     private String name;
     private String code;
     private String classRoom;

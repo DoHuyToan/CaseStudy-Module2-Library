@@ -13,6 +13,27 @@ public class Card implements Serializable {
     private LocalDate payDate;
     private LocalDate mustReturn;
 
+    public double fineMoney (){                       //quá hạn bị phạt tiền
+        LocalDate today = LocalDate.now();
+        double fineMoney = 0;
+        if(payDate == null){
+            if(DAYS.between(borrowedDate, today) > 45){
+                fineMoney = 1000;
+            }
+            else{
+                if(DAYS.between(borrowedDate, today) > 30){
+                    fineMoney = 500;
+                }
+                else{
+                    if (DAYS.between(borrowedDate, today) > 15){
+                        fineMoney = 100;
+                    }
+                }
+            }
+        }
+        return fineMoney;
+    }
+
     public Card(String code, Book book, Student student, LocalDate borrowedDate) {
         this.code = code;
         this.book = book;
@@ -23,13 +44,15 @@ public class Card implements Serializable {
 
     @Override
     public String toString() {
-        return "model.model.Card: " +
+        return "Card: " +
                 "codeCard= " + code + '\'' +
-                ", book= " + book +
-                ", student= " + student +
+                ", student= " + student.getName() +
+                ", bookName= " + book.getName() +
+                ", bookNumber= " + book.getNumber() +
                 ", borrowedDate= " + borrowedDate +
                 ", payDate= " + payDate +
-                ", mustReturn= " + mustReturn;
+                ", mustReturn= " + mustReturn +
+                ", fineMoney= " + fineMoney();
     }
 
     public long getSumBorrowedDate(){

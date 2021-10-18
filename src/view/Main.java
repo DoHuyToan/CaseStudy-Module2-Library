@@ -2,6 +2,7 @@ package view;
 
 import controller.Manager;
 import model.Book;
+import model.Card;
 import model.Student;
 
 import java.time.LocalDate;
@@ -17,12 +18,14 @@ public class Main {
 
         Book book1 = new Book("Đắc nhân tâm", "s1", 5);
         Book book2 = new Book("Nhà giả kim", "s2", 6);
+        Book book3 = new Book("Dạy làm giàu", "s3", 8);
         bookArrayList.add(book1);
         bookArrayList.add(book2);
-        Student student1 = new Student("Toàn", "sv1", "c08", "1989");
-        Student student2 = new Student("Long", "sv2", "c08", "2000");
-        studentArrayList.add(student1);
-        studentArrayList.add(student2);
+        bookArrayList.add(book3);
+        Student toan = new Student("Toàn", "sv1", "c08", "1989");
+        Student cuong = new Student("Cuong", "sv2", "c08", "2000");
+        studentArrayList.add(toan);
+        studentArrayList.add(cuong);
 
         Manager thuVienBK = new Manager(bookArrayList, studentArrayList, cardArrayList);
 
@@ -30,19 +33,20 @@ public class Main {
         do {
             System.out.println("Menu");
             System.out.println("1. Thêm Sách");
-            System.out.println("2. Hiển thị Sách");
+            System.out.println("2. Hiển thị danh sách Sách");
             System.out.println("3. Sửa Sách");
             System.out.println("4. Xóa Sách");
             System.out.println("5. Thêm Sinh viên");
-            System.out.println("6. Hiển thị Sinh viên");
+            System.out.println("6. Hiển thị danh sách Sinh viên");
             System.out.println("7. Sửa Sinh viên");
             System.out.println("8. Xóa Sinh viên");
-            System.out.println("9. Thêm model.Card khi mượn Sách");
-            System.out.println("10. Chỉnh model.Card khi trả Sách");
-            System.out.println("11. Hiển thị danh sách model.Card");
-            System.out.println("12. Sửa model.Card");
-            System.out.println("13. Xóa model.Card");
-            System.out.println("14. Danh sách cần phải trả sách cuối mỗi tháng");
+            System.out.println("9. Thêm Card khi mượn Sách");
+            System.out.println("10. Chỉnh Card khi trả Sách");
+            System.out.println("11. Hiển thị danh sách Card");
+            System.out.println("12. Sửa Card");
+            System.out.println("13. Xóa Card");
+            System.out.println("14. Danh sách Sách quá hạn cần phải trả Hiện tại");
+            System.out.println("15. Danh sách Sách quá hạn cần trả Cuối mỗi tháng");
             System.out.println("0. Exit");
             System.out.println("Chọn Menu");
             Scanner inputChoice = new Scanner(System.in);
@@ -79,7 +83,7 @@ public class Main {
                     thuVienBK.editCardBehindPay(inputCode(), inputPayDate());
                     break;
                 case 11:
-                    thuVienBK.showCard();
+                    thuVienBK.showCard(cardArrayList);
                     break;
                 case 12:
                     thuVienBK.editCard(inputCode(), creatCard());
@@ -88,16 +92,19 @@ public class Main {
                     thuVienBK.removeCard(inputCode());
                     break;
                 case 14:
-//                    System.out.println(thuVienBK.findCarNeedPay());
+                    thuVienBK.showCard(thuVienBK.findCardNeedPay());
+                    break;
+                case 15:
+                    thuVienBK.showCard(thuVienBK.findCardNeedPayForMonth());
                     break;
             }
         } while (choice!=0);
     }
 
     private static Card creatCard(){
-        System.out.println("Nhập mã model.Card");
-        Scanner inputCode = new Scanner(System.in);
-        String code = inputCode.nextLine();
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Nhập mã Card");
+        String code = scanner.nextLine();
         System.out.println("Nhập Sinh viên");
         Student student = creatStudent();
         System.out.println("Nhập Sách");
