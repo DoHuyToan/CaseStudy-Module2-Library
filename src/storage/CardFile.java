@@ -1,5 +1,6 @@
 package storage;
 
+import model.Card;
 import model.Student;
 
 import java.io.*;
@@ -19,7 +20,7 @@ public class CardFile {
     }
 
     //đọc file
-    public ArrayList<Student> readFile() throws IOException, ClassNotFoundException {
+    public ArrayList<Card> readFile() throws IOException, ClassNotFoundException {
         File file = new File("card.txt");
         if(!file.exists()){
             file.createNewFile();
@@ -27,14 +28,14 @@ public class CardFile {
         if(file.length() >0){
             FileInputStream fis = new FileInputStream(file);
             ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Student> cardArrayList = (ArrayList<Student>) ois.readObject();
+            ArrayList<Card> cardArrayList = (ArrayList<Card>) ois.readObject();
             return cardArrayList;
         }
         else return new ArrayList<>();
     }
 
     //ghi file
-    public void writeFile(ArrayList<Student> cardArrayList) throws IOException {
+    public void writeFile(ArrayList<Card> cardArrayList) throws IOException {
         FileOutputStream fos = new FileOutputStream("card.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(oos);

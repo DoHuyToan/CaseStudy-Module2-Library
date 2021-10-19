@@ -6,6 +6,12 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Card implements Serializable {
+    public static final int MAXDATE = 45;
+    public static final int MEDIUMDATE = 30;
+    public static final int MINDATE = 15;
+    public static final int MAXMONEY = 500;
+    public static final int MEDIUMMONEY = 200;
+    public static final int MINMONEY = 100;
     private String code;
     private Book book;
     private Student student;
@@ -13,20 +19,20 @@ public class Card implements Serializable {
     private LocalDate payDate;
     private LocalDate mustReturn;
 
-    public double fineMoney (){                       //quá hạn bị phạt tiền
+    public double fineMoney (){                       //quá hạn trả Sách bị phạt tiền
         LocalDate today = LocalDate.now();
         double fineMoney = 0;
         if(payDate == null || payDate.isAfter(mustReturn)){
-            if(DAYS.between(borrowedDate, today) > 45){
-                fineMoney = 1000;
+            if(DAYS.between(borrowedDate, today) > MAXDATE){
+                fineMoney = MAXMONEY;
             }
             else{
-                if(DAYS.between(borrowedDate, today) > 30){
-                    fineMoney = 500;
+                if(DAYS.between(borrowedDate, today) > MEDIUMDATE){
+                    fineMoney = MEDIUMMONEY;
                 }
                 else{
-                    if (DAYS.between(borrowedDate, today) > 15){
-                        fineMoney = 100;
+                    if (DAYS.between(borrowedDate, today) > MINDATE){
+                        fineMoney = MINMONEY;
                     }
                 }
             }
@@ -40,6 +46,11 @@ public class Card implements Serializable {
         this.student = student;
         this.borrowedDate = borrowedDate;
         mustReturn = borrowedDate.plusDays(15);
+    }
+
+    public Card(String code, Student student) {
+        this.code = code;
+        this.student = student;
     }
 
     @Override
