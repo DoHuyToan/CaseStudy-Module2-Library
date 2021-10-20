@@ -1,12 +1,16 @@
 package controller;
 
 import model.Book;
+import storage.BookFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class BookManager implements GeneralManager<Book> {
+    private static BookManager bookManager;
     ArrayList<Book> bookArrayList = new ArrayList<>();
+    BookFile bookFile =BookFile.getInstance();
 
     private BookManager() {
     }
@@ -35,6 +39,11 @@ public class BookManager implements GeneralManager<Book> {
     @Override
     public void add(Book book) {
         bookArrayList.add(book);
+        try {
+            bookFile.writeFile(bookArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -45,6 +54,11 @@ public class BookManager implements GeneralManager<Book> {
             }
             else System.out.println("Mã sách cần sửa ko đúng");
         }
+        try {
+            bookFile.writeFile(bookArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -54,6 +68,11 @@ public class BookManager implements GeneralManager<Book> {
                 bookArrayList.remove(i);
             }
             else System.out.println("Mã sách cần xóa ko đúng");
+        }
+        try {
+            bookFile.writeFile(bookArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

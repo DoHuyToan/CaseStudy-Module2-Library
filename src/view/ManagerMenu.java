@@ -16,7 +16,7 @@ public class ManagerMenu {
         return ManagerMenuHelper.INSTANCE;
     }
 
-    public void runManager(){
+    public void runMenu(){
         StudentMenu studentMenu = new StudentMenu();
         BookMenu bookMenu = new BookMenu();
         CardMenu cardMenu = new CardMenu();

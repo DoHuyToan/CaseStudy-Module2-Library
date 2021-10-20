@@ -2,13 +2,22 @@ package view;
 
 import controller.StudentManager;
 import model.Student;
+import storage.StudentFile;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class StudentMenu {
     public void runStudent(){
         StudentManager studentManager = StudentManager.getInstance();
         Scanner inputChoice = new Scanner(System.in);
+
+        try {
+            studentManager.setStudentArrayList(StudentFile.getInstance().readFile());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         int choice;
         do {
             System.out.println("Menu");

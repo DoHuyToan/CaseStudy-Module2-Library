@@ -37,6 +37,6 @@ public class StudentFile {
     public void writeFile(ArrayList<Student> studentArrayList) throws IOException {
         FileOutputStream fos = new FileOutputStream("student.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(oos);
+        oos.writeObject(studentArrayList);
     }
 }

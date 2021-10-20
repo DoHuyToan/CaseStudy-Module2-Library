@@ -34,9 +34,9 @@ public class BookFile {
     }
 
     //ghi file
-    public void writeFile(ArrayList<Book> studentArrayList) throws IOException {
+    public void writeFile(ArrayList<Book> bookArrayList) throws IOException {
         FileOutputStream fos = new FileOutputStream("book.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(oos);
+        oos.writeObject(bookArrayList);
     }
 }

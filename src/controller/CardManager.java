@@ -3,7 +3,9 @@ package controller;
 import model.Book;
 import model.Card;
 import model.Student;
+import storage.CardFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,6 +14,39 @@ public class CardManager implements GeneralManager<Card> {
     ArrayList<Card> cardArrayList = new ArrayList<>();
     BookManager bookManager = BookManager.getInstance();
     StudentManager studentManager = StudentManager.getInstance();
+    CardFile cardFile = CardFile.getInstance();
+
+    public ArrayList<Card> getCardArrayList() {
+        return cardArrayList;
+    }
+
+    public void setCardArrayList(ArrayList<Card> cardArrayList) {
+        this.cardArrayList = cardArrayList;
+    }
+
+    public BookManager getBookManager() {
+        return bookManager;
+    }
+
+    public void setBookManager(BookManager bookManager) {
+        this.bookManager = bookManager;
+    }
+
+    public StudentManager getStudentManager() {
+        return studentManager;
+    }
+
+    public void setStudentManager(StudentManager studentManager) {
+        this.studentManager = studentManager;
+    }
+
+    public CardFile getCardFile() {
+        return cardFile;
+    }
+
+    public void setCardFile(CardFile cardFile) {
+        this.cardFile = cardFile;
+    }
 
     @Override
     public List<Card> findAll() {
@@ -36,6 +71,11 @@ public class CardManager implements GeneralManager<Card> {
                         }
                     }
                 }
+                try {
+                    cardFile.writeFile(cardArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else System.out.println("Sách này ko có trong kho");
         }
@@ -53,6 +93,11 @@ public class CardManager implements GeneralManager<Card> {
                         bookManager.bookArrayList.get(j).setNumber(firstNum + payNum);
                     }
                 }
+                try {
+                    cardFile.writeFile(cardArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
             else System.out.println("Ko có code card này trong danh sách");
         }
@@ -61,16 +106,29 @@ public class CardManager implements GeneralManager<Card> {
     @Override
     public void editByCode(String code, Card card) {
         for(int i=0; i<cardArrayList.size(); i++){
-            if(cardArrayList.get(i).getCode().equals(code))
+            if(cardArrayList.get(i).getCode().equals(code)){
                 cardArrayList.set(i, card);
+                try {
+                    cardFile.writeFile(cardArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
         }
     }
 
     @Override
     public void removeByCode(String code) {
         for(int i=0; i<cardArrayList.size(); i++){
-            if(cardArrayList.get(i).getCode().equals(code))
+            if(cardArrayList.get(i).getCode().equals(code)){
                 cardArrayList.remove(i);
+                try {
+                    cardFile.writeFile(cardArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 

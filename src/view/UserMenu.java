@@ -5,6 +5,7 @@ import model.User;
 import storage.UserFile;
 
 import javax.imageio.IIOException;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class UserMenu {
@@ -15,7 +16,7 @@ public class UserMenu {
     public void runUser(){
         try {
             userManager.setUserArrayList(UserFile.getInstance().readFile());
-        } catch (IIOException | ClassNotFoundException e){
+        } catch (IOException | ClassNotFoundException e){
             e.printStackTrace();
         }
 
@@ -39,10 +40,30 @@ public class UserMenu {
                     System.out.println("Nhập mật khẩu");
                     String password = inputString.nextLine();
                     User userLogin = new User(code, account, password);
-                    if(userManager.isLogin(userLogin)){
-                        MANAGER_MENU.r
+
+                    if(userManager.findUser(userLogin)){
+                        MANAGER_MENU.runMenu();
                     }
+                    else{
+                        System.out.println("Tài khoản hoặc Mật khẩu ko chính xác");
+                    }
+                    break;
+                case 2:
+                    userManager.add(creatUser());
+                    break;
             }
         }
+    }
+
+    private static User creatUser(){
+        Scanner inputString = new Scanner(System.in);
+        System.out.println("Tạo mã người dùng");
+        String code = inputString.nextLine();
+        System.out.println("Tạo tài khoản người dùng");
+        String account = inputString.nextLine();
+        System.out.println("Tạo mật khẩu");
+        String password = inputString.nextLine();
+        User newUser = new User(code, account, password);
+        return newUser;
     }
 }

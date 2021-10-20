@@ -6,7 +6,9 @@ import controller.StudentManager;
 import model.Book;
 import model.Card;
 import model.Student;
+import storage.CardFile;
 
+import java.io.IOException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -19,6 +21,13 @@ public class CardMenu {
     Scanner inputChoice = new Scanner(System.in);
     int choice;
     public void runCard(){
+
+        try {
+            cardManager.setCardArrayList(CardFile.getInstance().readFile());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         do {
             System.out.println("Menu");
             System.out.println("1. Thêm Card khi mượn Sách");

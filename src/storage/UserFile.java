@@ -1,6 +1,5 @@
 package storage;
 
-import model.Student;
 import model.User;
 
 import java.io.*;
@@ -35,9 +34,21 @@ public class UserFile {
     }
 
     //ghi file
-    public void writeFile(ArrayList<User> studentArrayList) throws IOException {
-        FileOutputStream fos = new FileOutputStream("user.txt");
+    public void writeFile(ArrayList<User> userArrayList) throws IOException {
+
+        FileOutputStream fos = new FileOutputStream("demo.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(oos);
+        oos.writeObject(userArrayList);
     }
+
+//    public static void main(String[] args) {       cách kiểm tra ngay tại chỗ
+//        UserFile userFile = new UserFile();
+//        ArrayList<User> userArrayList = new ArrayList<>();
+//        userArrayList.add(new User("C08", "KA", "123"));
+//        try {
+//            userFile.writeFile(userArrayList);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//    }
 }

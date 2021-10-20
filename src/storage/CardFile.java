@@ -38,6 +38,6 @@ public class CardFile {
     public void writeFile(ArrayList<Card> cardArrayList) throws IOException {
         FileOutputStream fos = new FileOutputStream("card.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
-        oos.writeObject(oos);
+        oos.writeObject(cardArrayList);
     }
 }

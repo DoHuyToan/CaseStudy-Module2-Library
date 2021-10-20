@@ -1,12 +1,15 @@
 package controller;
 
 import model.Student;
+import storage.StudentFile;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 public class StudentManager implements GeneralManager<Student> {
     private  ArrayList<Student> studentArrayList = new ArrayList<>();
+    StudentFile studentFile = StudentFile.getInstance();
 
     private StudentManager() {
     }
@@ -35,6 +38,11 @@ public class StudentManager implements GeneralManager<Student> {
     @Override
     public void add(Student student) {
         studentArrayList.add(student);
+        try {
+            studentFile.writeFile(studentArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -45,6 +53,11 @@ public class StudentManager implements GeneralManager<Student> {
             }
             else System.out.println("Mã sinh viên cần sửa ko đúng");
         }
+        try {
+            studentFile.writeFile(studentArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -54,6 +67,11 @@ public class StudentManager implements GeneralManager<Student> {
                 studentArrayList.remove(i);
             }
             else System.out.println("Mã sinh viên cần xóa ko đúng");
+        }
+        try {
+            studentFile.writeFile(studentArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 

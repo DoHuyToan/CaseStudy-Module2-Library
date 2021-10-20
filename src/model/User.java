@@ -7,6 +7,15 @@ public class User implements Serializable {
     private String account;
     private String password;
 
+    @Override
+    public String toString() {
+        return "User{" +
+                "code='" + code + '\'' +
+                ", account='" + account + '\'' +
+                ", password='" + password + '\'' +
+                '}';
+    }
+
     public User() {
     }
 

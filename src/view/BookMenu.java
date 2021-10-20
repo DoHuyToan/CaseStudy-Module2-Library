@@ -2,7 +2,9 @@ package view;
 
 import controller.BookManager;
 import model.Book;
+import storage.BookFile;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 public class BookMenu {
@@ -10,6 +12,13 @@ public class BookMenu {
     public void runBook(){
         BookManager bookManager = BookManager.getInstance();
         Scanner inputChoice = new Scanner(System.in);
+
+        try{
+            bookManager.setBookArrayList(BookFile.getInstance().readFile());
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+
         int choice;
         do {
             System.out.println("Menu");
