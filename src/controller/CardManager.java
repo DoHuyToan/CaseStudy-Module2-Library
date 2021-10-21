@@ -27,18 +27,31 @@ public class CardManager {
         private static final CardManager INSTANCE = new CardManager();
     }
 
-    //tạo Card khi Sinh viên bắt đầu mượn, chưa có ngày trả
-    public void addCard(String codeCard, String codeStudent, Book book, LocalDate borrowedDate) {
-        Student student = STUDENT_MANAGER.searchByCode(codeStudent);
-        if (STUDENT_MANAGER.searchByCode(codeStudent) != null){
-            Card card = new Card(codeCard, student, book, borrowedDate);
-            cardArrayList.add(card);
-            try {
-                cardFile.writeFile(cardArrayList);
-            } catch (IOException e) {
-                e.printStackTrace();
+    public Card findCardByCode(String codeCard){
+        Card card = null;
+        for (int i=0; i<cardArrayList.size(); i++){
+            if(cardArrayList.get(i).getCode().equals(codeCard)){
+                card = cardArrayList.get(i);
             }
         }
+        return card;
+    }
+
+    //tạo Card khi Sinh viên bắt đầu mượn, chưa có ngày trả
+    public void addCard(String codeCard, String codeStudent, Book book, LocalDate borrowedDate) {
+        if(findCardByCode(codeCard) == null){
+            Student student = STUDENT_MANAGER.searchByCode(codeStudent);
+            if (student != null){
+                Card card = new Card(codeCard, student, book, borrowedDate);
+                cardArrayList.add(card);
+                try {
+                    cardFile.writeFile(cardArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
     }
 
     public void addPayDate(String codeCard, LocalDate payDate){                 ////thêm ngày trả sau khi trả Sách

@@ -29,8 +29,7 @@ public class Card implements Serializable {
         if(payDate == null){
             if(DAYS.between(mustReturn(), today) > MAXDATE){
                 fineMoney = MAXMONEY;
-            }
-            else{
+            } else{
                 if(DAYS.between(mustReturn(), today) > MEDIUMDATE){
                     fineMoney = MEDIUMMONEY;
                 }
@@ -41,7 +40,7 @@ public class Card implements Serializable {
                 }
             }
         }
-        if (payDate.isAfter(mustReturn())){
+        else  if (payDate.isAfter(mustReturn())){
             if(DAYS.between(mustReturn(), payDate) > MAXDATE){
                 fineMoney = MAXMONEY;
             }

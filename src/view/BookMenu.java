@@ -68,15 +68,13 @@ public class BookMenu {
         System.out.println("Nhập số sách");
         Scanner inputNumber = new Scanner(System.in);
         int number = inputNumber.nextInt();
-        Book book = new Book(name, code, number);
-        return book;
+        return new Book(name, code, number);
     }
 
     private static String inputCode(){
         System.out.println("Nhập code");
         Scanner inputCode = new Scanner(System.in);
-        String code = inputCode.nextLine();
-        return code;
+        return inputCode.nextLine();
     }
 
     private static int innputBorrowedNum() {
