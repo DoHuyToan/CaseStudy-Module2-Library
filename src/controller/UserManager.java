@@ -21,11 +21,11 @@ public class UserManager implements GeneralManager<User>, Serializable {
     @Override
     public void add(User user) {
         userArrayList.add(user);
-//        try {
-//            userFile.writeFile(userArrayList);
-//        } catch (IOException e){
-//            e.printStackTrace();
-//        }
+        try {
+            userFile.writeFile(userArrayList);
+        } catch (IOException e){
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -33,7 +33,7 @@ public class UserManager implements GeneralManager<User>, Serializable {
         for (int i=0; i<userArrayList.size(); i++){
             if(userArrayList.get(i).getCode().equals(code)){
                 userArrayList.set(i, user);
-//                userFile.writeFile(userArrayList);
+                userFile.writeFile(userArrayList);
             }
             else System.out.println("Mã code người dùng ko đúng");
         }
@@ -44,7 +44,7 @@ public class UserManager implements GeneralManager<User>, Serializable {
         for (int i=0; i<userArrayList.size(); i++){
             if(userArrayList.get(i).getCode().equals(code)){
                 userArrayList.remove(i);
-//                userFile.writeFile(userArrayList);
+                userFile.writeFile(userArrayList);
             }
             else System.out.println("Mã code người dùng ko đúng");
         }

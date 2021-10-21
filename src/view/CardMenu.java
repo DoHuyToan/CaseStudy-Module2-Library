@@ -10,17 +10,15 @@ import storage.CardFile;
 
 import java.io.IOException;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 public class CardMenu {
-    CardManager cardManager = new CardManager();
-    BookManager bookManager = BookManager.getInstance();
-    StudentManager studentManager = StudentManager.getInstance();
+    CardManager cardManager = CardManager.getInstance();
 
     Scanner inputChoice = new Scanner(System.in);
     int choice;
-    public void runCard(){
+
+    public void runCard() {
 
         try {
             cardManager.setCardArrayList(CardFile.getInstance().readFile());
@@ -31,42 +29,46 @@ public class CardMenu {
         do {
             System.out.println("Menu");
             System.out.println("1. Thêm Card khi mượn Sách");
-            System.out.println("2. Chỉnh Card sau khi trả Sách");
+            System.out.println("2. Thêm ngày sau khi trả Sách");
             System.out.println("3. Sửa Card");
             System.out.println("4. Xóa Card");
             System.out.println("5. Hiển thị danh sách Card");
             System.out.println("6. Hiển thị danh sách Sách quá hạn chưa trả");
             System.out.println("7. Liệt kê danh sách Sách quá hạn cuối mỗi tháng");
+            System.out.println("8. Tìm card theo code");
             System.out.println("0. Exit");
             System.out.println("Chọn Menu");
             choice = inputChoice.nextInt();
-            switch (choice){
+            switch (choice) {
                 case 1:
-                    cardManager.add(creatCard());
+                    cardManager.addCard(inputCodeCard(), inputCodeStudent(), creatBook(), inputBorrowedDate());
                     break;
                 case 2:
-                    cardManager.editCardBehindPay(inputCode(),inputPayDate());
+                    cardManager.addPayDate(inputCodeCard(), inputPayDate());
                     break;
                 case 3:
-                    cardManager.editByCode(inputCode(), creatCard());
+                    cardManager.editByCode(inputCodeCard(), creatCard());
                     break;
                 case 4:
-                    cardManager.removeByCode(inputCode());
+                    cardManager.removeByCode(inputCodeCard());
                     break;
                 case 5:
-                    cardManager.showAll();
+                    cardManager.showAll(cardManager.getCardArrayList());
                     break;
                 case 6:
-                    cardManager.findCardNeedPay();
+                    cardManager.showAll(cardManager.findCardNeedPay());
                     break;
                 case 7:
-                    cardManager.findCardNeedPayForMonth();
+                    cardManager.showAll(cardManager.findCardNeedPayForMonth());
+                    break;
+                case 8:
+                    cardManager.searchByCode(inputCodeCard());
                     break;
             }
-        } while (choice!=0);
+        } while (choice != 0);
     }
 
-    private static Card creatCard(){
+    private static Card creatCard() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Nhập mã Card");
         String code = scanner.nextLine();
@@ -76,10 +78,11 @@ public class CardMenu {
         Book book = addBookIntoCard();
         System.out.println("Nhập ngày tháng thuê Sách");
         LocalDate borrowedDate = inputBorrowedDate();
-        Card card = new Card(code, book, student, borrowedDate);
+        Card card = new Card(code, student, borrowedDate);
         return card;
     }
-    private static Student addStudentIntoCard(){
+
+    private static Student addStudentIntoCard() {
         System.out.println("Nhập tên Sinh viên");
         Scanner inputName = new Scanner(System.in);
         String name = inputName.nextLine();
@@ -96,7 +99,7 @@ public class CardMenu {
         return student;
     }
 
-    private static Book addBookIntoCard(){
+    private static Book addBookIntoCard() {
         System.out.println("Nhập tên Sách");
         Scanner inputName = new Scanner(System.in);
         String name = inputName.nextLine();
@@ -110,7 +113,7 @@ public class CardMenu {
         return book;
     }
 
-    private static LocalDate inputBorrowedDate(){
+    private static LocalDate inputBorrowedDate() {
         System.out.println("Nhập Năm thuê");
         Scanner inputYear = new Scanner(System.in);
         int year = inputYear.nextInt();
@@ -120,11 +123,11 @@ public class CardMenu {
         System.out.println("Nhập Ngày thuê");
         Scanner inputDate = new Scanner(System.in);
         int date = inputDate.nextInt();
-        LocalDate borrowedDate = LocalDate.of(year,month, date);
+        LocalDate borrowedDate = LocalDate.of(year, month, date);
         return borrowedDate;
     }
 
-    private static LocalDate inputPayDate(){
+    private static LocalDate inputPayDate() {
         System.out.println("Nhập Năm trả");
         Scanner inputYear = new Scanner(System.in);
         int year = inputYear.nextInt();
@@ -134,21 +137,50 @@ public class CardMenu {
         System.out.println("Nhập Ngày trả");
         Scanner inputDate = new Scanner(System.in);
         int date = inputDate.nextInt();
-        LocalDate payDate = LocalDate.of(year,month, date);
-        if(payDate.isBefore(LocalDate.now()) || payDate.equals(LocalDate.now())){
+        LocalDate payDate = LocalDate.of(year, month, date);
+        if (payDate.isBefore(LocalDate.now()) || payDate.equals(LocalDate.now())) {
             return payDate;
-        }
-        else {
+        } else {
             System.out.println("Ngày trả ko được lớn hơn ngày hiện tại");
             return null;
         }
     }
 
-    private static String inputCode(){
-        System.out.println("Nhập code");
+    private static String inputCodeBook() {
+        System.out.println("Nhập code Book");
         Scanner inputCode = new Scanner(System.in);
         String code = inputCode.nextLine();
         return code;
+    }
+
+    private static String inputCodeStudent() {
+        System.out.println("Nhập code Sinh viên");
+        Scanner inputCode = new Scanner(System.in);
+        String code = inputCode.nextLine();
+        return code;
+    }
+
+    private static String inputCodeCard() {
+        System.out.println("Nhập code Card");
+        Scanner inputCode = new Scanner(System.in);
+        String code = inputCode.nextLine();
+        return code;
+    }
+
+
+
+    private static Book creatBook(){
+        System.out.println("Nhập tên Sách");
+        Scanner inputName = new Scanner(System.in);
+        String name = inputName.nextLine();
+        System.out.println("Nhập mã Sách");
+        Scanner inputCode = new Scanner(System.in);
+        String code = inputCode.nextLine();
+        System.out.println("Nhập số sách");
+        Scanner inputNumber = new Scanner(System.in);
+        int number = inputNumber.nextInt();
+        Book book = new Book(name, code, number);
+        return book;
     }
 
 }

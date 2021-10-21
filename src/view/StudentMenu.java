@@ -25,6 +25,7 @@ public class StudentMenu {
             System.out.println("2. Sửa Sinh viên");
             System.out.println("3. Xóa Sinh viên");
             System.out.println("4. Hiển thị danh sách Sinh viên");
+            System.out.println("5. Tìm sinh viên theo Code");
             System.out.println("0. Exit");
             System.out.println("Chọn Menu");
             choice = inputChoice.nextInt();
@@ -40,6 +41,9 @@ public class StudentMenu {
                     break;
                 case 4:
                     studentManager.showAll();
+                    break;
+                case 5:
+                    studentManager.searchByCode(inputCode());
                     break;
             }
         } while (choice!=0);

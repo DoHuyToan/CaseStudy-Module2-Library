@@ -26,6 +26,9 @@ public class BookMenu {
             System.out.println("2. Sửa Sách");
             System.out.println("3. Xóa Sách");
             System.out.println("4. Hiển thị danh sách Sách");
+            System.out.println("5. Tìm sách theo Code");
+            System.out.println("6. Giảm số lượng sách sau khi mượn");
+            System.out.println("7. Tăng số lượng sách sau khi trả");
             System.out.println("0. Exit");
             System.out.println("Chọn Menu");
             choice = inputChoice.nextInt();
@@ -41,6 +44,15 @@ public class BookMenu {
                     break;
                 case 4:
                     bookManager.showAll();
+                    break;
+                case 5:
+                    bookManager.searchByCode(inputCode());
+                    break;
+                case 6:
+                    bookManager.decreaseNum(inputCode(), innputBorrowedNum());
+                    break;
+                case 7:
+                    bookManager.plusNum(inputCode(), innputPayNum());
                     break;
             }
         } while (choice!=0);
@@ -67,5 +79,15 @@ public class BookMenu {
         return code;
     }
 
+    private static int innputBorrowedNum() {
+        System.out.println("Nhập số sách đã mượn");
+        Scanner innputBorrowedNum = new Scanner(System.in);
+        return innputBorrowedNum.nextInt();
+    }
 
+    private static int innputPayNum() {
+        System.out.println("Nhập số sách đã trả");
+        Scanner innputBorrowedNum = new Scanner(System.in);
+        return innputBorrowedNum.nextInt();
+    }
 }

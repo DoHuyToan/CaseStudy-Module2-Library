@@ -31,6 +31,41 @@ public class BookManager implements GeneralManager<Book> {
         this.bookArrayList = bookArrayList;
     }
 
+    public void decreaseNum(String code, int decreaseNum){
+        for (int i=0; i<bookArrayList.size(); i++){
+            if(bookArrayList.get(i).getCode().equals(code)){
+                int firstNum = bookArrayList.get(i).getNumber();
+                if(decreaseNum <= firstNum){
+                    bookArrayList.get(i).setNumber(firstNum - decreaseNum);
+                    try {
+                        bookFile.writeFile(bookArrayList);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else System.out.println("Số sách mượn vượt quá trong kho");
+            }
+            else System.out.println("Mã sách cần sửa ko đúng");
+        }
+
+    }
+
+    public void plusNum(String code, int payNum){
+        for (int i=0; i<bookArrayList.size(); i++){
+            if(bookArrayList.get(i).getCode().equals(code)){
+                int firstNum = bookArrayList.get(i).getNumber();
+                bookArrayList.get(i).setNumber(firstNum + payNum);
+                try {
+                    bookFile.writeFile(bookArrayList);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            else System.out.println("Mã sách cần sửa ko đúng");
+        }
+
+    }
+
     @Override
     public List<Book> findAll() {
         return bookArrayList;

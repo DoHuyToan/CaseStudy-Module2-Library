@@ -6,9 +6,9 @@ import java.time.LocalDate;
 import static java.time.temporal.ChronoUnit.DAYS;
 
 public class Card implements Serializable {
-    public static final int MAXDATE = 45;
-    public static final int MEDIUMDATE = 30;
-    public static final int MINDATE = 15;
+    public static final int MAXDATE = 30;
+    public static final int MEDIUMDATE = 15;
+    public static final int MINDATE = 0;
     public static final int MAXMONEY = 500;
     public static final int MEDIUMMONEY = 200;
     public static final int MINMONEY = 100;
@@ -17,21 +17,40 @@ public class Card implements Serializable {
     private Student student;
     private LocalDate borrowedDate;
     private LocalDate payDate;
-    private LocalDate mustReturn;
+
+    public LocalDate mustReturn(){
+        LocalDate mustReturn = borrowedDate.plusDays(15);
+        return mustReturn;
+    }
 
     public double fineMoney (){                       //quá hạn trả Sách bị phạt tiền
         LocalDate today = LocalDate.now();
         double fineMoney = 0;
-        if(payDate == null || payDate.isAfter(mustReturn)){
-            if(DAYS.between(borrowedDate, today) > MAXDATE){
+        if(payDate == null){
+            if(DAYS.between(mustReturn(), today) > MAXDATE){
                 fineMoney = MAXMONEY;
             }
             else{
-                if(DAYS.between(borrowedDate, today) > MEDIUMDATE){
+                if(DAYS.between(mustReturn(), today) > MEDIUMDATE){
                     fineMoney = MEDIUMMONEY;
                 }
                 else{
-                    if (DAYS.between(borrowedDate, today) > MINDATE){
+                    if (DAYS.between(mustReturn(), today) > MINDATE){
+                        fineMoney = MINMONEY;
+                    }
+                }
+            }
+        }
+        if (payDate.isAfter(mustReturn())){
+            if(DAYS.between(mustReturn(), payDate) > MAXDATE){
+                fineMoney = MAXMONEY;
+            }
+            else{
+                if(DAYS.between(mustReturn(), payDate) > MEDIUMDATE){
+                    fineMoney = MEDIUMMONEY;
+                }
+                else{
+                    if (DAYS.between(mustReturn(), payDate) > MINDATE){
                         fineMoney = MINMONEY;
                     }
                 }
@@ -40,12 +59,10 @@ public class Card implements Serializable {
         return fineMoney;
     }
 
-    public Card(String code, Book book, Student student, LocalDate borrowedDate) {
+    public Card(String code, Student student, LocalDate borrowedDate) {
         this.code = code;
-        this.book = book;
         this.student = student;
         this.borrowedDate = borrowedDate;
-        mustReturn = borrowedDate.plusDays(15);
     }
 
     public Card(String code, Student student) {
@@ -57,12 +74,11 @@ public class Card implements Serializable {
     public String toString() {
         return "Card: " +
                 "codeCard= " + code + '\'' +
-                ", student= " + student.getName() +
-                ", bookName= " + book.getName() +
-                ", bookNumber= " + book.getNumber() +
+                ", student= " + student +
+                ", book= " + book +
                 ", borrowedDate= " + borrowedDate +
                 ", payDate= " + payDate +
-                ", mustReturn= " + mustReturn +
+                ", mustReturn= " + mustReturn() +
                 ", fineMoney= " + fineMoney();
     }
 
@@ -74,14 +90,11 @@ public class Card implements Serializable {
     public Card() {
     }
 
-
-
-    public Card(String code, Book book, Student student, LocalDate borrowedDate, LocalDate payDate) {
+    public Card(String code, Student student, Book book, LocalDate borrowedDate) {
         this.code = code;
         this.book = book;
         this.student = student;
         this.borrowedDate = borrowedDate;
-        this.payDate = payDate;
     }
 
     public String getCode() {
