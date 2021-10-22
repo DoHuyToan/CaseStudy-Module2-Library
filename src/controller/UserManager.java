@@ -63,6 +63,7 @@ public class UserManager implements GeneralManager<User>, Serializable {
         for (int i=0; i<userArrayList.size(); i++){
             if(userArrayList.get(i).getCode().equals(code)){
                 user = userArrayList.get(i);
+                break;
             }
             else System.out.println("Mã code người dùng ko đúng");
         }

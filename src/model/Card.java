@@ -64,6 +64,7 @@ public class Card implements Serializable {
         this.borrowedDate = borrowedDate;
     }
 
+
     public Card(String code, Student student) {
         this.code = code;
         this.student = student;

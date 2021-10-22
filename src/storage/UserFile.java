@@ -36,7 +36,7 @@ public class UserFile {
     //ghi file
     public void writeFile(ArrayList<User> userArrayList) throws IOException {
 
-        FileOutputStream fos = new FileOutputStream("demo.txt");
+        FileOutputStream fos = new FileOutputStream("user.txt");
         ObjectOutputStream oos = new ObjectOutputStream(fos);
         oos.writeObject(userArrayList);
     }

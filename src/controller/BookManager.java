@@ -9,8 +9,8 @@ import java.util.List;
 
 public class BookManager implements GeneralManager<Book> {
     private static BookManager bookManager;
+    BookFile bookFile = BookFile.getInstance();
     ArrayList<Book> bookArrayList = new ArrayList<>();
-    BookFile bookFile =BookFile.getInstance();
 
     private BookManager() {
     }
@@ -37,17 +37,17 @@ public class BookManager implements GeneralManager<Book> {
                 int firstNum = bookArrayList.get(i).getNumber();
                 if(decreaseNum <= firstNum){
                     bookArrayList.get(i).setNumber(firstNum - decreaseNum);
-                    try {
-                        bookFile.writeFile(bookArrayList);
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    break;
                 }
                 else System.out.println("Số sách mượn vượt quá trong kho");
             }
             else System.out.println("Mã sách cần sửa ko đúng");
         }
-
+        try {
+            bookFile.writeFile(bookArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public void plusNum(String code, int payNum){
@@ -55,15 +55,14 @@ public class BookManager implements GeneralManager<Book> {
             if(bookArrayList.get(i).getCode().equals(code)){
                 int firstNum = bookArrayList.get(i).getNumber();
                 bookArrayList.get(i).setNumber(firstNum + payNum);
-                try {
-                    bookFile.writeFile(bookArrayList);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                break;
             }
-            else System.out.println("Mã sách cần sửa ko đúng");
         }
-
+        try {
+            bookFile.writeFile(bookArrayList);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -124,6 +123,7 @@ public class BookManager implements GeneralManager<Book> {
         for (int i=0; i<bookArrayList.size(); i++){
             if(bookArrayList.get(i).getCode().equals(code)){
                 book = bookArrayList.get(i);
+                break;
             }
         }
         return book;

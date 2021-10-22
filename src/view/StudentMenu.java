@@ -43,7 +43,7 @@ public class StudentMenu {
                     studentManager.showAll();
                     break;
                 case 5:
-                    studentManager.searchByCode(inputCode());
+                    System.out.println(studentManager.searchByCode(inputCode()));
                     break;
             }
         } while (choice!=0);

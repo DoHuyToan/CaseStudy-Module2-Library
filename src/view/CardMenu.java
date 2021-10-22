@@ -14,6 +14,8 @@ import java.util.Scanner;
 
 public class CardMenu {
     CardManager cardManager = CardManager.getInstance();
+    BookManager bookManager = BookManager.getInstance();
+    StudentManager studentManager = StudentManager.getInstance();
 
     Scanner inputChoice = new Scanner(System.in);
     int choice;
@@ -62,7 +64,7 @@ public class CardMenu {
                     cardManager.showAll(cardManager.findCardNeedPayForMonth());
                     break;
                 case 8:
-                    cardManager.searchByCode(inputCodeCard());
+                    System.out.println(cardManager.searchByCode(inputCodeCard()));
                     break;
             }
         } while (choice != 0);
@@ -167,7 +169,12 @@ public class CardMenu {
         return code;
     }
 
-
+    private static int inputNumBook() {
+        System.out.println("Nhập số sách");
+        Scanner inputCode = new Scanner(System.in);
+        int numBook = inputCode.nextInt();
+        return numBook;
+    }
 
     private static Book creatBook(){
         System.out.println("Nhập tên Sách");

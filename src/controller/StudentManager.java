@@ -8,13 +8,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StudentManager implements GeneralManager<Student> {
-    private  ArrayList<Student> studentArrayList = new ArrayList<>();
+    private ArrayList<Student> studentArrayList = new ArrayList<>();
     StudentFile studentFile = StudentFile.getInstance();
 
     private StudentManager() {
     }
 
-    private static class ManagerStudentHelper{
+    private static class ManagerStudentHelper {
         private static final StudentManager INSTANCE = new StudentManager();
     }
 
@@ -47,11 +47,10 @@ public class StudentManager implements GeneralManager<Student> {
 
     @Override
     public void editByCode(String code, Student student) {
-        for (int i=0; i<studentArrayList.size(); i++){
-            if(studentArrayList.get(i).getCode().equals(code)){
+        for (int i = 0; i < studentArrayList.size(); i++) {
+            if (studentArrayList.get(i).getCode().equals(code)) {
                 studentArrayList.set(i, student);
-            }
-            else System.out.println("Mã sinh viên cần sửa ko đúng");
+            } else System.out.println("Mã sinh viên cần sửa ko đúng");
         }
         try {
             studentFile.writeFile(studentArrayList);
@@ -62,11 +61,10 @@ public class StudentManager implements GeneralManager<Student> {
 
     @Override
     public void removeByCode(String code) {
-        for (int i=0; i<studentArrayList.size(); i++){
-            if(studentArrayList.get(i).getCode().equals(code)){
+        for (int i = 0; i < studentArrayList.size(); i++) {
+            if (studentArrayList.get(i).getCode().equals(code)) {
                 studentArrayList.remove(i);
             }
-            else System.out.println("Mã sinh viên cần xóa ko đúng");
         }
         try {
             studentFile.writeFile(studentArrayList);
@@ -77,7 +75,7 @@ public class StudentManager implements GeneralManager<Student> {
 
     @Override
     public void showAll() {
-        for (Student t:studentArrayList) {
+        for (Student t : studentArrayList) {
             System.out.println(t);
         }
     }
@@ -85,11 +83,13 @@ public class StudentManager implements GeneralManager<Student> {
     @Override
     public Student searchByCode(String code) {
         Student student = null;
-        for (int i=0; i<studentArrayList.size(); i++){
-            if(studentArrayList.get(i).getCode().equals(code)){
+        for (int i = 0; i < studentArrayList.size(); i++) {
+            if (studentArrayList.get(i).getCode().equals(code)) {
                 student = studentArrayList.get(i);
+                break;
             }
         }
         return student;
     }
 }
+
