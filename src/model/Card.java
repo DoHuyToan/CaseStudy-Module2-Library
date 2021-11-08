@@ -58,17 +58,7 @@ public class Card implements Serializable {
         return fineMoney;
     }
 
-    public Card(String code, Student student, LocalDate borrowedDate) {
-        this.code = code;
-        this.student = student;
-        this.borrowedDate = borrowedDate;
-    }
 
-
-    public Card(String code, Student student) {
-        this.code = code;
-        this.student = student;
-    }
 
     @Override
     public String toString() {
@@ -82,11 +72,6 @@ public class Card implements Serializable {
                 ", fineMoney= " + fineMoney();
     }
 
-    public long getSumBorrowedDate(){
-        long numday = DAYS.between(borrowedDate, payDate);
-        return numday;
-    }
-
     public Card() {
     }
 
@@ -95,6 +80,18 @@ public class Card implements Serializable {
         this.book = book;
         this.student = student;
         this.borrowedDate = borrowedDate;
+    }
+
+    public Card(String code, Student student, LocalDate borrowedDate) {
+        this.code = code;
+        this.student = student;
+        this.borrowedDate = borrowedDate;
+    }
+
+
+    public Card(String code, Student student) {
+        this.code = code;
+        this.student = student;
     }
 
     public String getCode() {

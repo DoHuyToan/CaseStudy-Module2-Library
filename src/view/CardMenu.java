@@ -43,9 +43,11 @@ public class CardMenu {
             choice = inputChoice.nextInt();
             switch (choice) {
                 case 1:
+                    bookManager.showAll();
                     cardManager.addCard(inputCodeCard(), inputCodeStudent(), creatBook(), inputBorrowedDate());
                     break;
                 case 2:
+                    bookManager.showAll();
                     cardManager.addPayDate(inputCodeCard(), inputPayDate());
                     break;
                 case 3:

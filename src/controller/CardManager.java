@@ -48,9 +48,8 @@ public class CardManager {
                     cardArrayList.add(card);
                     BOOK_MANAGER.decreaseNum(book.getCode(), book.getNumber());
                 }
-                else System.out.println("Sinh viên thuê quá hạn chưa trả");
+                else System.out.println("Sinh viên thuê quá hạn chưa trả ko đc mượn tiếp");
             }
-            else System.out.println("Ko phải sinh viên trong trường");
         }
         else System.out.println("Mã thẻ đã tồn tại");
         try {

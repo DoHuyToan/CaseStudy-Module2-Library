@@ -41,7 +41,6 @@ public class BookManager implements GeneralManager<Book> {
                 }
                 else System.out.println("Số sách mượn vượt quá trong kho");
             }
-            else System.out.println("Mã sách cần sửa ko đúng");
         }
         try {
             bookFile.writeFile(bookArrayList);
